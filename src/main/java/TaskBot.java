@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TaskBot {
@@ -7,6 +9,7 @@ public class TaskBot {
         System.out.println("____________________________________________________________");
         System.out.println("Hello! I'm TaskBot!");
         System.out.println("What can I do for you?");
+        List<String> tasks = new ArrayList<>();
 
         while(true) {
             String command = scanner.nextLine();
@@ -17,9 +20,17 @@ public class TaskBot {
                 System.out.println("____________________________________________________________");
                 break;
             }
-            else {
+            else if (command.equals("list")) {
                 System.out.println("____________________________________________________________");
-                System.out.println(" " + command);
+                for (int i = 0; i < tasks.size(); i++) {
+                    System.out.println((i + 1) + ". " + tasks.get(i));
+                }
+                System.out.println("____________________________________________________________");
+            }
+            else {
+                tasks.add(command);
+                System.out.println("____________________________________________________________");
+                System.out.println(" added: " + command);
                 System.out.println("____________________________________________________________");
             }
         }
