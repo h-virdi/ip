@@ -43,14 +43,43 @@ public class TaskBot {
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < tasks.size(); i++) {
                     Task t = tasks.get(i);
-                    System.out.println((i + 1) + ".[" + t.getStatusIcon() + "] " + t.getDesc());
+                    System.out.println((i + 1) + "." + t.toString());
                 }
                 System.out.println("____________________________________________________________");
             }
-            else {
-                tasks.add(new Task(command));
+            else if (command.startsWith("todo")) {
+                String todo = command.substring(5);
+                Task t = new Todo(todo);
+                tasks.add(t);
                 System.out.println("____________________________________________________________");
-                System.out.println(" added: " + command);
+                System.out.println("Got it. I've added this task:");
+                System.out.println("   " + t.toString());
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                System.out.println("____________________________________________________________");
+            }
+            else if (command.startsWith("deadline")) {
+                String[] details = command.split("/by ", 2);
+                String todo = details[0].substring(9).trim();
+                String deadline = details[1];
+                Task t = new Deadline(todo, deadline);
+                tasks.add(t);
+                System.out.println("____________________________________________________________");
+                System.out.println("Got it. I've added this task: ");
+                System.out.println("   " + t.toString());
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                System.out.println("____________________________________________________________");
+            }
+            else if (command.startsWith("event")) {
+                String[] details = command.split("/", 3);
+                String todo = details[0].substring(6).trim();
+                String start = details[1].substring(5).trim();
+                String end = details[2].substring(3);
+                Task t = new Event(todo, start, end);
+                tasks.add(t);
+                System.out.println("____________________________________________________________");
+                System.out.println("Got it. I've added this task: ");
+                System.out.println("   " + t.toString());
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 System.out.println("____________________________________________________________");
             }
         }
