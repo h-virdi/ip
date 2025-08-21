@@ -15,7 +15,6 @@ public class TaskBot {
         while(true) {
             String command = scanner.nextLine();
             try {
-
                 if (command.equals("bye")) {
                     System.out.println("____________________________________________________________");
                     System.out.println(" Bye. Hope to see you again soon!");
@@ -37,6 +36,15 @@ public class TaskBot {
                     System.out.println(" OK, I've marked this task as not done yet:");
                     System.out.println("   [" + t.getStatusIcon() + "] " + t.getDesc());
                     System.out.println("____________________________________________________________");
+                } else if (command.startsWith("delete")) {
+                    int taskNum = Integer.parseInt(command.substring(7));
+                    Task t = tasks.get(taskNum - 1);
+                    tasks.remove(taskNum - 1);
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Noted. I've removed this task:");
+                    System.out.println("   " + t.toString());
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
                 } else if (command.equals("list")) {
                     System.out.println("____________________________________________________________");
                     System.out.println(" Here are the tasks in your list:");
@@ -55,7 +63,7 @@ public class TaskBot {
                     System.out.println("____________________________________________________________");
                     System.out.println(" Got it. I've added this task:");
                     System.out.println("   " + t.toString());
-                    System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
                 } else if (command.startsWith("deadline")) {
                     String[] details = command.split("/by", 2);
@@ -66,7 +74,7 @@ public class TaskBot {
                     System.out.println("____________________________________________________________");
                     System.out.println(" Got it. I've added this task: ");
                     System.out.println("   " + t.toString());
-                    System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
                 } else if (command.startsWith("event")) {
                     String[] parts = command.split("/from", 2);
@@ -79,7 +87,7 @@ public class TaskBot {
                     System.out.println("____________________________________________________________");
                     System.out.println(" Got it. I've added this task: ");
                     System.out.println("   " + t.toString());
-                    System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
                 } else {
                     throw new TaskBotException("OOPS!!! I'm sorry, but I don't know what that means :-(");
