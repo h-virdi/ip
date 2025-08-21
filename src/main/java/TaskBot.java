@@ -60,22 +60,14 @@ public class TaskBot {
                     String todo = command.substring(5);
                     Task t = new Todo(todo);
                     tasks.add(t);
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + t.toString());
-                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-                    System.out.println("____________________________________________________________");
+                    printAddedTask(t, tasks.size());
                 } else if (command.startsWith("deadline")) {
                     String[] details = command.split("/by", 2);
                     String todo = details[0].substring(9).trim();
                     String deadline = details[1].trim();
                     Task t = new Deadline(todo, deadline);
                     tasks.add(t);
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Got it. I've added this task: ");
-                    System.out.println("   " + t.toString());
-                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-                    System.out.println("____________________________________________________________");
+                    printAddedTask(t, tasks.size());
                 } else if (command.startsWith("event")) {
                     String[] parts = command.split("/from", 2);
                     String todo = parts[0].substring(6).trim();
@@ -84,11 +76,7 @@ public class TaskBot {
                     String end = times[1].trim();
                     Task t = new Event(todo, start, end);
                     tasks.add(t);
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Got it. I've added this task: ");
-                    System.out.println("   " + t.toString());
-                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-                    System.out.println("____________________________________________________________");
+                    printAddedTask(t, tasks.size());
                 } else {
                     throw new TaskBotException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
@@ -99,4 +87,12 @@ public class TaskBot {
             }
         }
     }
+    private static void printAddedTask(Task t, int size) {
+        System.out.println("____________________________________________________________");
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + t.toString());
+        System.out.println(" Now you have " + size + " tasks in the list.");
+        System.out.println("____________________________________________________________");
+    }
+
 }

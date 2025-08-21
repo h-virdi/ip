@@ -2,7 +2,7 @@ public class Todo extends Task{
     protected String description;
 
     public Todo(String description) {
-        super(description);
+        super(TaskType.TODO, description);
     }
 
     @Override
