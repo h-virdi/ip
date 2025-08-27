@@ -1,5 +1,4 @@
 public class Todo extends Task{
-    protected String description;
 
     public Todo(String description) {
         super(TaskType.TODO, description);
@@ -8,5 +7,10 @@ public class Todo extends Task{
     @Override
     public String toString() {
         return "[T]" + super.toString();
+    }
+
+    @Override
+    public String toFileString() {
+        return "T | " + (isDone ? "1" : "0") + " | " + description;
     }
 }
