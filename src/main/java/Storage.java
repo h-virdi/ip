@@ -11,12 +11,18 @@ public class Storage {
     }
 
     public void saveTasks(List<Task> tasks) throws IOException {
-        Files.createDirectories(filePath.getParent());
-        try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
-            for (Task task : tasks) {
-                writer.write(task.toFileString());
-                writer.newLine();
+        try {
+            if (filePath.getParent() != null) {
+                Files.createDirectories(filePath.getParent());
             }
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
+                for (Task task : tasks) {
+                    writer.write(task.toFileString());
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
         }
     }
 

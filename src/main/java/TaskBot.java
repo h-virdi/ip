@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -94,6 +95,8 @@ public class TaskBot {
                 } else {
                     throw new TaskBotException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
+            } catch (DateTimeParseException e) {
+                System.out.println(" OOPS!!! Date must be in yyyy-MM-dd format.");
             } catch (TaskBotException e) {
                 System.out.println("____________________________________________________________");
                 System.out.println(" " + e.getMessage());
