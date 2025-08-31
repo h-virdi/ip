@@ -1,3 +1,5 @@
+package task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -8,6 +10,10 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(TaskType.DEADLINE, description);
         this.by = LocalDate.parse(by);
+    }
+
+    public LocalDate getBy() {
+        return this.by;
     }
 
     @Override

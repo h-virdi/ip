@@ -1,3 +1,5 @@
+package task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -9,6 +11,14 @@ public class Event extends Task {
         super(TaskType.EVENT, description);
         this.start = LocalDate.parse(start);
         this.end = LocalDate.parse(end);
+    }
+
+    public LocalDate getStart() {
+        return this.start;
+    }
+
+    public LocalDate getEnd() {
+        return this.end;
     }
 
     @Override
