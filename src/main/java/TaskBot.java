@@ -1,148 +1,44 @@
-import java.io.*;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class TaskBot {
+import command.Command;
+import parser.Parser;
+import storage.Storage;
+import task.TaskList;
+import ui.Ui;
+import misc.TaskBotException;
 
-    private static final String DATA_FOLDER = "data";
-    private static final String DATA_FILE = "data/taskbot.txt";
-    private static List<Task> tasks = new ArrayList<>();
+public class TaskBot {
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
+
+    public TaskBot(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        tasks = new TaskList(storage.loadTasks());
+    }
 
     public static void main(String[] args) {
-        loadTasks();
+        new TaskBot("./data/TaskBot.txt").run();
+    }
 
+    public void run() {
+        Ui.showWelcome();
         Scanner scanner = new Scanner(System.in);
+        boolean shouldExit = false;
 
-        System.out.println("____________________________________________________________");
-        System.out.println(" Hello! I'm TaskBot");
-        System.out.println(" What can I do for you?");
-        System.out.println("____________________________________________________________");
+        while (!shouldExit) {
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) continue;
 
-        while(true) {
-            String command = scanner.nextLine();
             try {
-                if (command.equals("bye")) {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Bye. Hope to see you again soon!");
-                    System.out.println("____________________________________________________________");
-                    saveTasks();
-                    break;
-                } else if (command.startsWith("mark")) {
-                    int taskNum = Integer.parseInt(command.substring(5));
-                    Task t = tasks.get(taskNum - 1);
-                    t.mark();
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Nice! I've marked this task as done:");
-                    System.out.println("   [" + t.getStatusIcon() + "] " + t.getDesc());
-                    System.out.println("____________________________________________________________");
-                    saveTasks();
-                } else if (command.startsWith("unmark")) {
-                    int taskNum = Integer.parseInt(command.substring(7));
-                    Task t = tasks.get(taskNum - 1);
-                    t.unmark();
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" OK, I've marked this task as not done yet:");
-                    System.out.println("   [" + t.getStatusIcon() + "] " + t.getDesc());
-                    System.out.println("____________________________________________________________");
-                    saveTasks();
-                } else if (command.startsWith("delete")) {
-                    int taskNum = Integer.parseInt(command.substring(7));
-                    Task t = tasks.get(taskNum - 1);
-                    tasks.remove(taskNum - 1);
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Noted. I've removed this task:");
-                    System.out.println("   " + t.toString());
-                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-                    System.out.println("____________________________________________________________");
-                    saveTasks();
-                } else if (command.equals("list")) {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Here are the tasks in your list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        Task t = tasks.get(i);
-                        System.out.println(" " + (i + 1) + "." + t.toString());
-                    }
-                    System.out.println("____________________________________________________________");
-                } else if (command.startsWith("todo")) {
-                    if (command.length() <= 5) {
-                        throw new TaskBotException("OOPS!!! The description of a todo cannot be empty.");
-                    }
-                    String todo = command.substring(5);
-                    Task t = new Todo(todo);
-                    tasks.add(t);
-                    printAddedTask(t, tasks.size());
-                    saveTasks();
-                } else if (command.startsWith("deadline")) {
-                    String[] details = command.split("/by", 2);
-                    String todo = details[0].substring(9).trim();
-                    String deadline = details[1].trim();
-                    Task t = new Deadline(todo, deadline);
-                    tasks.add(t);
-                    printAddedTask(t, tasks.size());
-                    saveTasks();
-                } else if (command.startsWith("event")) {
-                    String[] parts = command.split("/from", 2);
-                    String todo = parts[0].substring(6).trim();
-                    String[] times = parts[1].split("/to", 2);
-                    String start = times[0].trim();
-                    String end = times[1].trim();
-                    Task t = new Event(todo, start, end);
-                    tasks.add(t);
-                    printAddedTask(t, tasks.size());
-                    saveTasks();
-                } else {
-                    throw new TaskBotException("OOPS!!! I'm sorry, but I don't know what that means :-(");
-                }
-            } catch (DateTimeParseException e) {
-                System.out.println(" OOPS!!! Date must be in yyyy-MM-dd format.");
+                Command c = Parser.parse(input);
+                c.execute(tasks, ui, storage);
+                shouldExit = c.shouldExit();
             } catch (TaskBotException e) {
-                System.out.println("____________________________________________________________");
-                System.out.println(" " + e.getMessage());
-                System.out.println("____________________________________________________________");
+                Ui.showError(e.getMessage());
             }
         }
-    }
-    private static void printAddedTask(Task t, int size) {
-        System.out.println("____________________________________________________________");
-        System.out.println(" Got it. I've added this task:");
-        System.out.println("   " + t.toString());
-        System.out.println(" Now you have " + size + " tasks in the list.");
-        System.out.println("____________________________________________________________");
-    }
-
-    private static void saveTasks() {
-        try {
-            File folder = new File(DATA_FOLDER);
-            if (!folder.exists()) {
-                if (!folder.mkdirs()) {
-                    System.out.println("Failed to create data folder.");
-                }
-            }
-            BufferedWriter writer = new BufferedWriter(new FileWriter(DATA_FILE));
-            for (Task t : tasks) {
-                writer.write(t.toFileString());
-                writer.newLine();
-            }
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
-        }
-    }
-
-    private static void loadTasks() {
-        try {
-            File file = new File(DATA_FILE);
-            if (!file.exists()) return; // no file yet
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                tasks.add(Task.fromFileString(line));
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
-        }
+        scanner.close();
     }
 }
