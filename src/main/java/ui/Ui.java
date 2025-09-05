@@ -1,6 +1,7 @@
 package ui;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import task.Task;
@@ -124,6 +125,37 @@ public class Ui {
             System.out.println("      OOPS!! No tasks relevant to this date.");
         }
         System.out.println("____________________________________________________________");
+    }
+
+    /**
+     * Prints all tasks with names containing the specified keyword
+     * @param tasks accumulated list of tasks
+     * @param taskName keyword used to search in tasks
+     * @return String representing the list of matching tasks
+     */
+    public String printFind(ArrayList<Task> tasks, String taskName) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Looking for task including ")
+                .append(taskName)
+                .append("...")
+                .append("\n");
+        boolean taskFound = false;
+
+        for (int i = 0; i < tasks.size(); i++) {
+            Task t = tasks.get(i);
+            if (t.getDesc().toLowerCase().contains(taskName.toLowerCase())) {
+                sb.append("  ")
+                        .append(i + 1)
+                        .append(". ")
+                        .append(t)
+                        .append("\n");
+                taskFound = true;
+            }
+        }
+        if (!taskFound) {
+            return "Task including " + taskName + "not found.";
+        }
+        return sb.toString();
     }
 
     public static void showWelcome() {
