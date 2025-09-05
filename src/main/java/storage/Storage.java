@@ -33,15 +33,11 @@ public class Storage {
      */
 
     public void saveTasks(List<Task> tasks) throws IOException {
-        try {
-            BufferedWriter bw = new BufferedWriter((new FileWriter(file)));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (Task t : tasks) {
                 bw.write(t.toFileString());
                 bw.newLine();
             }
-            bw.close();
-        } catch (IOException e) {
-            System.out.println("OOPS!! Tasks were not saved: " + e.getMessage());
         }
     }
 

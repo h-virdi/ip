@@ -5,6 +5,7 @@ import task.Task;
 import task.TaskList;
 import ui.Ui;
 import misc.TaskBotException;
+import java.io.IOException;
 
 /**
  * Handles the command to remove a task from the task list
@@ -22,8 +23,12 @@ public class DeleteCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException {
-        Task removedTask = tasks.removeTask(index);
-        storage.saveTasks(tasks.getTasks());
-        ui.printDeletedTask(tasks.getTasks(), removedTask);
+        try {
+            Task removedTask = tasks.removeTask(index);
+            storage.saveTasks(tasks.getTasks());
+            ui.printDeletedTask(tasks.getTasks(), removedTask);
+        } catch (IOException e) {
+            throw new TaskBotException("Error saving tasks" + e.getMessage());
+        }
     }
 }

@@ -5,6 +5,7 @@ import task.Task;
 import task.TaskList;
 import ui.Ui;
 import misc.TaskBotException;
+import java.io.IOException;
 
 /**
  * Handles the command to mark/unmark a task
@@ -33,13 +34,17 @@ public class MarkCommand extends Command {
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException {
-        Task t = tasks.getTask(index);
-        if (isMarked) {
-            t.mark();
-        } else {
-            t.unmark();
+        try {
+            Task t = tasks.getTask(index);
+            if (isMarked) {
+                t.mark();
+            } else {
+                t.unmark();
+            }
+            storage.saveTasks(tasks.getTasks());
+            ui.printMark(t, isMarked);
+        } catch (IOException e) {
+            throw new TaskBotException("Error saving tasks" + e.getMessage());
         }
-        storage.saveTasks(tasks.getTasks());
-        ui.printMark(t, isMarked);
     }
 }

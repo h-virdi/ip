@@ -15,7 +15,7 @@ public enum Commands {
 
     public static Commands fromString(String input) throws TaskBotException {
         try {
-            return Command.valueOf(input.toUpperCase());
+            return Commands.valueOf(input.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new TaskBotException("OOPS!! I don't know what you want me to do :-(" + input);
         }
