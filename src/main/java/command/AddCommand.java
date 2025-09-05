@@ -21,6 +21,14 @@ public class AddCommand extends Command {
         this.addedTask = t;
     }
 
+    /**
+     * Carries out the relevant tasks to execute the add command
+     * @param tasks accumulated list of tasks
+     * @param ui UI where notifications are displayed
+     * @param storage storage system where tasks are saved
+     * @throws TaskBotException
+     */
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException {
         try {
