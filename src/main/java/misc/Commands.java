@@ -1,7 +1,8 @@
 package misc;
 
-import task.Task;
-
+/**
+ * Parent class of commands carried out by TaskBot
+ */
 public enum Commands {
     TODO,
     DEADLINE,
@@ -12,6 +13,13 @@ public enum Commands {
     DELETE,
     BYE,
     ONDATE;
+
+    /**
+     * Reads command input from user
+     * @param input command given by user
+     * @return
+     * @throws TaskBotException
+     */
 
     public static Commands fromString(String input) throws TaskBotException {
         try {

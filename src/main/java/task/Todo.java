@@ -1,6 +1,9 @@
 package task;
 
-public class Todo extends Task{
+/**
+ * Class handling the internals of subtype task todo
+ */
+public class Todo extends Task {
 
     public Todo(String description) {
         super(TaskType.TODO, description);

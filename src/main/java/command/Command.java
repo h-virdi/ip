@@ -1,9 +1,9 @@
 package command;
 
+import misc.TaskBotException;
 import storage.Storage;
 import task.TaskList;
 import ui.Ui;
-import misc.TaskBotException;
 
 /**
  * Abstract class for handling different types of commands

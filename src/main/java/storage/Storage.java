@@ -1,12 +1,17 @@
 package storage;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import misc.TaskBotException;
 import parser.Parser;
 import task.Task;
-import misc.TaskBotException;
 
 /**
  * Deals with loading tasks from the file and saving tasks in the file
@@ -45,7 +50,7 @@ public class Storage {
      * Loads tasks stored in the file if it exists
      * Otherwise, a new file is created and an empty task list is returned
      *
-     * @return List<Task> list of tasks stored in file
+     * @return list of tasks stored in file
      */
 
     public ArrayList<Task> loadTasks() {
