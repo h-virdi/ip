@@ -1,18 +1,20 @@
 package command;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import storage.Storage;
-import task.TaskList;
-import task.Todo;
-import ui.Ui;
-import misc.TaskBotException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import misc.TaskBotException;
+import storage.Storage;
+import task.TaskList;
+import task.Todo;
+import ui.Ui;
+
 
 public class MarkCommandTest {
     private TaskList tasks;

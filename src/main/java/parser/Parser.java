@@ -2,24 +2,32 @@ package parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
+import command.AddCommand;
+import command.Command;
+import command.DateCommand;
+import command.DeleteCommand;
+import command.ListCommand;
+import command.MarkCommand;
+import command.QuitCommand;
+import misc.Commands;
+import misc.TaskBotException;
 import task.Deadline;
 import task.Event;
 import task.Task;
 import task.Todo;
-import command.Command;
-import command.AddCommand;
-import command.DateCommand;
-import command.ListCommand;
-import command.MarkCommand;
-import command.DeleteCommand;
-import command.QuitCommand;
-import misc.TaskBotException;
-import misc.Commands;
 
+/**
+ * Class handling the reading of commands
+ */
 public class Parser {
 
+    /**
+     * Matches the intended command to its execution
+     * @param input intended command from user input
+     * @return
+     * @throws TaskBotException
+     */
     public static Command parse(String input) throws TaskBotException {
         String[] parts = input.split(" ", 2);
         String c = parts[0].trim().toLowerCase();
@@ -32,10 +40,10 @@ public class Parser {
             return new QuitCommand();
 
         case LIST:
-             return new ListCommand();
+            return new ListCommand();
 
         case TODO:
-             return parseTodo(args);
+            return parseTodo(args);
 
         case DEADLINE:
             return parseDeadline(args);
@@ -170,6 +178,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Extracts intended command from user input
+     * @param line user input
+     * @return intended command
+     * @throws TaskBotException
+     */
     public static Task parseTask(String line) throws TaskBotException {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {

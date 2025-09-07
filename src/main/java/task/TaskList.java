@@ -1,13 +1,7 @@
 package task;
 
-import java.util.List;
-import java.util.Scanner;
 import java.util.ArrayList;
 
-import command.Command;
-import parser.Parser;
-import storage.Storage;
-import ui.Ui;
 import misc.TaskBotException;
 
 /**
@@ -77,7 +71,7 @@ public class TaskList {
         return tasks;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return tasks.isEmpty();
     }
 }

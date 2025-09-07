@@ -3,10 +3,18 @@ package task;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Class managing the internals of a Deadline object
+ */
 public class Deadline extends Task {
 
     protected LocalDate by;
 
+    /**
+     * Constructs a Deadline object
+     * @param description task name
+     * @param by date of deadline for task
+     */
     public Deadline(String description, String by) {
         super(TaskType.DEADLINE, description);
         this.by = LocalDate.parse(by);

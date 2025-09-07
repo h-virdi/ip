@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import task.Task;
+import misc.TaskBotException;
 import task.Deadline;
 import task.Event;
-import misc.TaskBotException;
+import task.Task;
 
 /**
  * Deals with interactions with user
@@ -114,8 +114,8 @@ public class Ui {
                 LocalDate start = e.getStart();
                 LocalDate end = e.getEnd();
 
-                if ((date.isEqual(start) || date.isAfter(start)) &&
-                        (date.isEqual(end) || date.isBefore(end))) {
+                if ((date.isEqual(start) || date.isAfter(start))
+                        && (date.isEqual(end) || date.isBefore(end))) {
                     System.out.println("       " + t);
                     tasksFound = true;
                 }
@@ -152,12 +152,16 @@ public class Ui {
                 taskFound = true;
             }
         }
+
         if (!taskFound) {
             return "Task including " + taskName + "not found.";
         }
         return sb.toString();
     }
 
+    /**
+     * TaskBot welcome
+     */
     public static void showWelcome() {
         System.out.println("____________________________________________________________");
         System.out.println(" Hello! I'm TaskBot.");
@@ -165,6 +169,9 @@ public class Ui {
         System.out.println("____________________________________________________________");
     }
 
+    /**
+     * TaskBot goodbye
+     */
     public void showGoodbye() {
         System.out.println("____________________________________________________________");
         System.out.println(" Bye. Hope to see you again soon!");

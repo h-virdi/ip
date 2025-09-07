@@ -3,10 +3,19 @@ package task;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Class managing the internals of an Event object
+ */
 public class Event extends Task {
     protected LocalDate start;
     protected LocalDate end;
 
+    /**
+     * Constructs an Event object
+     * @param description task/event name
+     * @param start start date of event
+     * @param end end date of event
+     */
     public Event(String description, String start, String end) {
         super(TaskType.EVENT, description);
         this.start = LocalDate.parse(start);
@@ -23,9 +32,9 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " +
-                start.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + " to: " +
-                end.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+        return "[E]" + super.toString() + " (from: "
+                + start.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + " to: "
+                + end.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
     @Override

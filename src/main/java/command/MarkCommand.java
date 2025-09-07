@@ -1,11 +1,12 @@
 package command;
 
+import java.io.IOException;
+
+import misc.TaskBotException;
 import storage.Storage;
 import task.Task;
 import task.TaskList;
 import ui.Ui;
-import misc.TaskBotException;
-import java.io.IOException;
 
 /**
  * Handles the command to mark/unmark a task
