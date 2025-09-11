@@ -19,7 +19,7 @@ public abstract class Command {
      * @param storage storage system where tasks are saved
      * @throws TaskBotException
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException;
 
     /**
      * Represents whether the command requires the application to be terminated

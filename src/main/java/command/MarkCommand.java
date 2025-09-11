@@ -1,7 +1,5 @@
 package command;
 
-import java.io.IOException;
-
 import misc.TaskBotException;
 import storage.Storage;
 import task.Task;
@@ -34,18 +32,15 @@ public class MarkCommand extends Command {
      * @throws TaskBotException
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException {
-        try {
-            Task t = tasks.getTask(index);
-            if (isMarked) {
-                t.mark();
-            } else {
-                t.unmark();
-            }
-            storage.saveTasks(tasks.getTasks());
-            ui.printMark(t, isMarked);
-        } catch (IOException e) {
-            throw new TaskBotException("Error saving tasks" + e.getMessage());
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException {
+        Task t = tasks.getTask(index);
+        assert t != null : "Task cannot be empty at index " + index;
+        if (isMarked) {
+            t.mark();
+        } else {
+            t.unmark();
         }
+        storage.saveTasks(tasks.getTasks());
+        return ui.printMark(t, isMarked);
     }
 }

@@ -26,7 +26,7 @@ public class FindCommand extends Command {
      * @param storage storage system where tasks are saved
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.printFind(tasks.getTasks(), taskName);
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return ui.printFind(tasks.getTasks(), taskName);
     }
 }

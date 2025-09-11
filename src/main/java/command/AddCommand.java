@@ -1,5 +1,4 @@
 package command;
-import java.io.IOException;
 
 import misc.TaskBotException;
 import storage.Storage;
@@ -30,13 +29,9 @@ public class AddCommand extends Command {
      */
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException {
-        try {
-            tasks.addTask(addedTask);
-            storage.saveTasks(tasks.getTasks());
-            ui.printAddedTask(addedTask, tasks.size());
-        } catch (IOException e) {
-            throw new TaskBotException("Error saving tasks" + e.getMessage());
-        }
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws TaskBotException {
+        tasks.addTask(addedTask);
+        storage.saveTasks(tasks.getTasks());
+        return ui.printAddedTask(addedTask, tasks.size());
     }
 }

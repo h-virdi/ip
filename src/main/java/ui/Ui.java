@@ -42,12 +42,9 @@ public class Ui {
      * @param size size of the task list after adding new task
      */
 
-    public static void printAddedTask(Task t, int size) {
-        System.out.println("____________________________________________________________");
-        System.out.println(" Got it. I've added this task:");
-        System.out.println("   " + t.toString());
-        System.out.println(" Now you have " + size + " tasks in the list.");
-        System.out.println("____________________________________________________________");
+    public String printAddedTask(Task t, int size) {
+        return "Okay! Task added:\n" + "  " + t + "\n"
+                + "Now you have " + size + " tasks in the list.";
     }
 
     /**
@@ -55,14 +52,20 @@ public class Ui {
      * @param tasks accumulated list of tasks
      */
 
-    public static void printList(List<Task> tasks) {
-        System.out.println("____________________________________________________________");
-        System.out.println(" Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            Task t = tasks.get(i);
-            System.out.println(" " + (i + 1) + "." + t.toString());
+    public static String printList(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return "You have no tasks yet!";
         }
-        System.out.println("____________________________________________________________");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Here are your tasks:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append("  ")
+                    .append(i + 1)
+                    .append(": ")
+                    .append(tasks.get(i))
+                    .append("\n");
+        }
+        return sb.toString();
     }
 
     /**
@@ -71,15 +74,14 @@ public class Ui {
      * @param isMarked boolean representing task status
      */
 
-    public static void printMark(Task t, boolean isMarked) {
-        System.out.println("____________________________________________________________");
+    public String printMark(Task t, boolean isMarked) {
+        String msg;
         if (isMarked) {
-            System.out.println(" Nice! I've marked this task as done:");
+            msg = "Nice! I've marked this task as done: ";
         } else {
-            System.out.println(" OK, I've marked this task as not done yet:");
+            msg = "OK, I've marked this task as not done yet: ";
         }
-        System.out.println("   [" + t.getStatusIcon() + "] " + t.getDesc());
-        System.out.println("____________________________________________________________");
+        return msg + t;
     }
 
     /**
@@ -87,12 +89,9 @@ public class Ui {
      * @param tasks task list
      * @param t task being deleted
      */
-    public static void printDeletedTask(List<Task> tasks, Task t) {
-        System.out.println("____________________________________________________________");
-        System.out.println(" Noted. I've removed this task:");
-        System.out.println("   " + t.toString());
-        System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println("____________________________________________________________");
+    public static String printDeletedTask(List<Task> tasks, Task t) {
+        return ("Noted. I've removed this task: ") + t.toString()
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 
     /**
@@ -101,30 +100,36 @@ public class Ui {
      * @param date date of interest
      */
 
-    public static void printDateTasks(List<Task> tasks, LocalDate date) {
-        System.out.println("____________________________________________________________");
-        System.out.println("      Tasks on " + date + ":");
+    public String printDateTasks(List<Task> tasks, LocalDate date) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Tasks on ")
+                .append(date)
+                .append(":\n");
         boolean tasksFound = false;
 
         for (Task t : tasks) {
             if (t instanceof Deadline d && d.getBy().equals(date)) {
-                System.out.println("       " + t);
+                sb.append("  ")
+                        .append(t)
+                        .append("\n");
                 tasksFound = true;
             } else if (t instanceof Event e) {
-                LocalDate start = e.getStart();
-                LocalDate end = e.getEnd();
+                LocalDate startDate = e.getStart();
+                LocalDate endDate = e.getEnd();
 
-                if ((date.isEqual(start) || date.isAfter(start))
-                        && (date.isEqual(end) || date.isBefore(end))) {
-                    System.out.println("       " + t);
+                if ((date.isEqual(startDate) || date.isAfter(startDate))
+                        && (date.isEqual(endDate) || date.isBefore(endDate))) {
+                    sb.append("  ")
+                            .append(t)
+                            .append("\n");
                     tasksFound = true;
                 }
             }
         }
         if (!tasksFound) {
-            System.out.println("      OOPS!! No tasks relevant to this date.");
+            return "No tasks found on " + date;
         }
-        System.out.println("____________________________________________________________");
+        return sb.toString();
     }
 
     /**
@@ -160,25 +165,21 @@ public class Ui {
     }
 
     /**
-     * TaskBot welcome
+     * TaskBot.TaskBot welcome
      */
-    public static void showWelcome() {
-        System.out.println("____________________________________________________________");
-        System.out.println(" Hello! I'm TaskBot.");
-        System.out.println(" What can I do for you?");
-        System.out.println("____________________________________________________________");
+    public static String showWelcome() {
+        return "Hello! I'm TaskBot.\n"
+                + "What can I do for you?";
     }
 
     /**
-     * TaskBot goodbye
+     * TaskBot.TaskBot goodbye
      */
-    public void showGoodbye() {
-        System.out.println("____________________________________________________________");
-        System.out.println(" Bye. Hope to see you again soon!");
-        System.out.println("____________________________________________________________");
+    public String showGoodbye() {
+        return "Bye! See you later!";
     }
 
-    public static void showError(String msg) {
-        System.out.println("OOPS!!" + msg);
+    public static String showError(String msg) {
+        return "OOPS!" + msg;
     }
 }

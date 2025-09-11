@@ -37,12 +37,16 @@ public class Storage {
      * @throws IOException
      */
 
-    public void saveTasks(List<Task> tasks) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+    public void saveTasks(List<Task> tasks) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for (Task t : tasks) {
                 bw.write(t.toFileString());
                 bw.newLine();
             }
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("Error saving file: " + e.getMessage());
         }
     }
 
