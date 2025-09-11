@@ -106,6 +106,7 @@ public class Parser {
 
         if (args.indexOf("/from") < args.indexOf("/to")) {
             String[] eventParts = args.split("/from", 2);
+
             if (eventParts.length < 2) {
                 throw new TaskBotException("Error");
             }
@@ -121,6 +122,7 @@ public class Parser {
             to = timeParts[1].trim();
         } else {
             String[] eventParts = args.split("/to", 2);
+
             if (eventParts.length < 2) {
                 throw new TaskBotException("Format the event by description /from time /to time");
             }
