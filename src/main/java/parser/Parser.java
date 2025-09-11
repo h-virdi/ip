@@ -69,6 +69,7 @@ public class Parser {
     }
 
     private static Command parseTodo(String args) throws TaskBotException {
+        assert args != null : "Arguments should not be null";
         if (args.trim().isEmpty()) {
             throw new TaskBotException("What do you want to do?");
         }
@@ -76,6 +77,7 @@ public class Parser {
     }
 
     private static Command parseDeadline(String args) throws TaskBotException {
+        assert args != null : "Arguments should not be null";
         if (!args.contains("/by")) {
             throw new TaskBotException("Deadlines need a description and date.");
         }
