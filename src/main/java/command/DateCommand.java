@@ -27,7 +27,7 @@ public class DateCommand extends Command {
      * @param storage storage system where tasks are saved
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.printDateTasks(tasks.getTasks(), date);
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return ui.printDateTasks(tasks.getTasks(), date);
     }
 }

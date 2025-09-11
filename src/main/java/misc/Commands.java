@@ -1,7 +1,7 @@
 package misc;
 
 /**
- * Parent class of commands carried out by TaskBot
+ * Parent class of commands carried out by TaskBot.TaskBot
  */
 public enum Commands {
     TODO,

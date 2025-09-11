@@ -1,5 +1,5 @@
 ____________________________________________________________
- Hello! I'm TaskBot
+ Hello! I'm taskbot.taskbot
  What can I do for you?
 ____________________________________________________________
  Got it. I've added this task:

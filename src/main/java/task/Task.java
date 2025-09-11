@@ -1,7 +1,7 @@
 package task;
 
 /**
- * Parent class of the different types of tasks handles by TaskBot
+ * Parent class of the different types of tasks handles by TaskBot.TaskBot
  */
 public abstract class Task {
     protected String description;
