@@ -38,6 +38,9 @@ public class Storage {
      */
 
     public void saveTasks(List<Task> tasks) {
+        assert tasks != null : "Tasks list should not be null";
+        assert file != null : "File should not be null";
+
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for (Task t : tasks) {
@@ -58,6 +61,7 @@ public class Storage {
      */
 
     public ArrayList<Task> loadTasks() {
+        assert file != null : "File should not be null";
         ArrayList<Task> tasks = new ArrayList<>();
         try {
             if (!file.exists()) {
@@ -71,6 +75,7 @@ public class Storage {
             while ((command = br.readLine()) != null) {
                 try {
                     Task t = Parser.parseTask(command);
+                    assert t != null : "Parsed task should not be null";
                     tasks.add(t);
                 } catch (TaskBotException e) {
                     System.out.println("OOPS!! Line cannot be parsed: " + e.getMessage());
