@@ -28,6 +28,9 @@ public abstract class Task {
         return this.description;
     }
 
+    public void setDescription(String newDesc) {
+        this.description = newDesc;
+    }
     public void mark() {
         this.isDone = true;
     }
